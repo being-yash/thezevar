@@ -33,7 +33,10 @@ class LoginController extends Controller
           if( Auth()->user()->role == 1){
               return route('admin.dashboard');
           }
-          elseif( Auth()->user() == 2){
+          elseif( Auth()->user()->role == 2){
+              return route('vendor.dashboard');
+          }
+          elseif( Auth()->user()->role == 3){
               return route('user.dashboard');
           }
       }
@@ -59,10 +62,13 @@ class LoginController extends Controller
        if( auth()->attempt(array('email'=>$input['email'], 'password'=>$input['password'])) ){
 
         if( auth()->user()->role == 1 ){
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('message','You have logged in Successfully!');
         }
         elseif( auth()->user()->role == 2 ){
-            return redirect()->route('user.dashboard');
+            return redirect()->route('vendor.dashboard')->with('message','You have logged in Successfully!');
+        }
+        elseif( auth()->user()->role == 3 ){
+            return redirect()->route('user.dashboard')->with('message','You have logged in Successfully!');
         }
 
        }else{
